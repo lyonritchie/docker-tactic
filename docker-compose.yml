@@ -23,8 +23,9 @@ services:
     db:
         image: postgres:11
         environment:
-            POSTGRES_PASSWORD: mysecretpassword
-            POSTGRES_DB: sthpw
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_PASSWORD:
+            # POSTGRES_DB: sthpw
         volumes:
             - db:/var/lib/postgresql/data
             - ./postgres/pg_hba.conf:/var/lib/pgsql/data/pg_hba.conf:ro

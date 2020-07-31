@@ -3,7 +3,7 @@
 # Based on Centos 6 image
 ############################################################
 
-FROM centos:centos8
+FROM centos:8
 
 # Install locale not included in centos docker image
 # RUN yum install glibc-langpack-en
@@ -20,7 +20,7 @@ ENV LC_ALL=
 RUN echo 'export PS1="[\u@docker] \W # "' >> /root/.bash_profile
 
 # Install dependecies
-RUN yum -y update && yum install -y glibc-all-langpacks.x86_64 glibc-locale-source glibc-langpack-en
+RUN yum -y update && yum install -y glibc-all-langpacks.x86_64 glibc-locale-source glibc-langpack-en wget
 
 RUN yum -y --enablerepo=extras install epel-release
 
@@ -28,14 +28,41 @@ RUN localedef -f UTF-8 -i en_US en_US.UTF-8
 
 # RUN localectl set-locale LANG=en_US.UTF-8
 
+RUN yum -y install wget yum-utils gcc openssl-devel bzip2-devel libffi-devel
+
+# install Python 3.7+
+RUN wget https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz
+RUN tar xzf Python-3.7.7.tgz && cd Python-3.7.7 && \
+    ./configure \
+    # --prefix=/opt/python37 \
+    --enable-optimizations --with-lto \
+    --with-system-ffi \
+    # --with-computed-gotos \
+    --enable-loadable-sqlite-extensions && make -j "$(nproc)" && \
+    make install
+    # rm /tmp/Python-3.8.5.tgz
+
+# RUN ln -s /opt/python38/bin/python3.8 /opt/python38/bin/python3
+# RUN ln -s /opt/python38/bin/python3.8 /usr/bin/python38
+# RUN ln -s /opt/python38/bin/python3.8 /opt/python38/bin/python
+# RUN ln -s /opt/python38/bin/python3.8-config /opt/python38/bin/python-config
+# RUN ln -s /opt/python38/bin/pydoc3.8 /opt/python38/bin/pydoc
+# RUN ln -s /opt/python38/bin/idle3.8 /opt/python38/bin/idle
+
+# RUN ln -s /opt/python38/bin/pip3.8 /opt/python38/bin/pip3
+# RUN ln -s /opt/python38/bin/pip3.8 /opt/python38/bin/pip
+
 RUN yum -y install \
     httpd \
     postgresql postgresql-server \
     openssh-server \
-    python3 unzip git ImageMagick \
-    python3-dateutil \
-    gcc-c++ python3-devel unixODBC-devel
-RUN pip3 install psycopg2-binary pillow lxml pycryptodomex six pytz jaraco.functools requests supervisor pyodbc
+    # python3 \
+    unzip git ImageMagick \
+    # python3-dateutil \
+    gcc-c++ \
+    # python3-devel \
+    unixODBC-devel
+RUN pip3 install psycopg2-binary pillow lxml pycryptodomex six pytz jaraco.functools requests supervisor pyodbc python-dateutil
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8
 
@@ -67,7 +94,7 @@ RUN mkdir -p /opt/tactic/tactic
 # USER tactic
 
 # get and install Tactic
-RUN git clone -b 4.8 --depth 1 https://github.com/Southpaw-TACTIC/TACTIC.git
+RUN git clone -b 4.7-updates --depth 1 https://github.com/Southpaw-TACTIC/TACTIC.git
 # RUN python3 /opt/tactic/tactic/src/install/install.py -d
 # /opt/tactic/tactic/
     #&& \
