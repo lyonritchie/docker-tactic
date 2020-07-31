@@ -117,7 +117,7 @@ class Install:
             answer = input("(n) -> " )
             if answer in ['y','Y']:
                 # can't read from config file at this point, just make these default assumptions
-                db_host = 'localhost'
+                db_host = 'db'
                 db_user = 'postgres'
                 backup_name = 'sthpw_backup.sql'
                 current_dir = self.get_current_dir()

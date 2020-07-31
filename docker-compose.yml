@@ -18,6 +18,7 @@ services:
         volumes:
             - tactic:/opt/tactic
             - ./tactic/standalone_linux-conf.xml:/opt/tactic/tactic_data/config/tactic-conf.xml
+            - ./tactic/install.py:/TACTIC/src/install/install.py:ro
 
     db:
         image: postgres:11

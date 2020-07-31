@@ -3,7 +3,7 @@
 # Based on Centos 6 image
 ############################################################
 
-FROM centos:centos7
+FROM centos:centos8
 
 # Install locale not included in centos docker image
 # RUN yum install glibc-langpack-en
@@ -11,22 +11,33 @@ FROM centos:centos7
 #&& yum clean all
 
 # Setup a minimal env
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-# ENV LC_ALL en_US.UTF-8
-ENV HOME /root
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LC_ALL=
+# ENV HOME=/root
 
 # set a better shell prompt
 RUN echo 'export PS1="[\u@docker] \W # "' >> /root/.bash_profile
 
 # Install dependecies
+RUN yum -y update && yum install -y glibc-all-langpacks.x86_64 glibc-locale-source glibc-langpack-en
+
 RUN yum -y --enablerepo=extras install epel-release
+
+RUN localedef -f UTF-8 -i en_US en_US.UTF-8
+
+# RUN localectl set-locale LANG=en_US.UTF-8
+
 RUN yum -y install \
     httpd \
     postgresql postgresql-server \
     openssh-server \
-    python3 unzip git ImageMagick
-run pip3 install psycopg2-binary pillow lxml pycryptodomex six pytz jaraco.functools requests supervisor
+    python3 unzip git ImageMagick \
+    python3-dateutil \
+    gcc-c++ python3-devel unixODBC-devel
+RUN pip3 install psycopg2-binary pillow lxml pycryptodomex six pytz jaraco.functools requests supervisor pyodbc
+
+RUN localedef -i en_US -f UTF-8 en_US.UTF-8
 
 # add ffmpeg
 RUN curl -L -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
@@ -45,7 +56,7 @@ ADD bootstrap.sh /usr/local/bin/bootstrap.sh
 
 # initialize postgresql data files
 #RUN postgresql-setup initdb
-RUN su - postgres -c "/usr/bin/initdb -D /var/lib/pgsql/data"
+# RUN su - postgres -c "/usr/bin/initdb -D /var/lib/pgsql/data"
 
 # RUN useradd -ms /bin/bash tactic
 RUN useradd -r -d /opt/tactic tactic
