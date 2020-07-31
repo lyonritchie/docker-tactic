@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    # db:
+    #     image: centos/postgresql-96-centos7
+    #     command : []
+    tactic:
+        build: "./tactic"
+        image: garyritchie/docker-tactic-compose:4.8
+        depends_on:
+            - db
+            - httpd
+        user: tactic
+        environment:
+            ROOT_PASSWORD: mysecretpassword
+        ports:
+            - "8070:80"
+        volumes:
+            - tactic:/opt/tactic
+            - ./tactic/standalone_linux-conf.xml:/opt/tactic/tactic_data/config/tactic-conf.xml
+
+    db:
+        image: postgres:11
+        environment:
+            POSTGRES_PASSWORD: mysecretpassword
+            POSTGRES_DB: sthpw
+        volumes:
+            - db:/var/lib/postgresql/data
+            - ./postgres/pg_hba.conf:/var/lib/pgsql/data/pg_hba.conf:ro
+            - ./postgres/data:/docker-entrypoint-initdb.d
+    httpd:
+        image: httpd
+        ports:
+            - "80:80"
+        volumes:
+            - tactic:/opt/tactic
+            # - tactic:/usr/local/apache2/htdocs/
+            - ./tactic/tactic.conf:/usr/local/apache2/conf.d/tactic.conf
+volumes:
+    db:
+    tactic:

@@ -28,3 +28,15 @@ Run the container with:
 - connect with your browser to http://localhost to use tactic.
 - use "ssh root@localhost -p 2222" for shell access.
 
+---
+
+Init step:
+
+```bash
+docker-compose run --entrypoint bash tactic
+docker-compose run -u root --entrypoint bash tactic
+
+docker-compose up -d
+
+docker-compose run -u tactic tactic ["python3", "/opt/tactic/tactic/src/pyasm/search/upgrade/postgresql/bootstrap_load.py"]
+```
