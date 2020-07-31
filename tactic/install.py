@@ -556,7 +556,7 @@ VALUES ('shot_attr_change', 'Attribute Changes For Shots', 'email', 'prod/shot',
             default_base_dir = "C:/Program Files/Southpaw"
             default_data_dir = "C:/ProgramData/Southpaw"
         else:
-            default_base_dir = "/home/apache"
+            default_base_dir = "/opt/tactic"
 
 
         

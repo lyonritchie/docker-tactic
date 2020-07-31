@@ -33,10 +33,21 @@ Run the container with:
 Init step:
 
 ```bash
+docker-compose build tactic
 docker-compose run --entrypoint bash tactic
 docker-compose run -u root --entrypoint bash tactic
+chown -R tactic TACTIC/
 
 docker-compose up -d
 
 docker-compose run -u tactic tactic ["python3", "/opt/tactic/tactic/src/pyasm/search/upgrade/postgresql/bootstrap_load.py"]
 ```
+
+
+bash-4.4$ python3
+Python 3.6.8 (default, Apr 16 2020, 01:36:27)
+[GCC 8.3.1 20191121 (Red Hat 8.3.1-5)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> sys.path
+['', '/usr/lib64/python36.zip', '/usr/lib64/python3.6', '/usr/lib64/python3.6/lib-dynload', '/usr/local/lib64/python3.6/site-packages', '/usr/local/lib/python3.6/site-packages', '/usr/lib64/python3.6/site-packages', '/usr/lib/python3.6/site-packages']
