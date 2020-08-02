@@ -34,6 +34,7 @@ Init step:
 
 ```bash
 docker-compose build tactic
+docker-compose run -u root -v "$pwd/tactic/tactic_linux-conf.xml:/opt/tactic/tactic_data/config/tactic-conf.xml" --entrypoint bash tactic
 docker-compose run --entrypoint bash tactic
 docker-compose run -u root --entrypoint bash tactic
 chown -R tactic TACTIC/
