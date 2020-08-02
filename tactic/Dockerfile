@@ -18,7 +18,7 @@ WORKDIR /
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN useradd -r -d /opt/tactic tactic
+RUN useradd -r -d /home/apache tactic
 # ENV TACTIC_INSTALL_DIR=/opt/tactic
 
 RUN git clone -b 4.8 --depth 1 https://github.com/Southpaw-TACTIC/TACTIC.git
@@ -33,6 +33,7 @@ RUN python install.py -d -i False
 
 # RUN mkdir -p /opt/tactic
 
-WORKDIR /home/apache/tactic/src
+WORKDIR /home/apache/tactic
 
-ENTRYPOINT ["python", "bin/startup_dev.py"]
+USER www-data
+ENTRYPOINT ["python", "src/bin/startup_dev.py"]
