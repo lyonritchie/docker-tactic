@@ -6,19 +6,23 @@ services:
     #     command : []
     tactic:
         build: "./tactic"
-        image: garyritchie/docker-tactic-compose:4.7-updates
+        image: garyritchie/docker-tactic:4.7-updates
         depends_on:
             - db
             - httpd
         user: tactic
         environment:
             ROOT_PASSWORD: mysecretpassword
+            TACTIC_INSTALL_DIR: '/home/apache/tactic'
+            TACTIC_SITE_DIR: ''
+            TACTIC_DATA_DIR: '/home/apache/tactic_data'
+            TACTIC_DB: 'db'
         ports:
             - "8070:80"
         volumes:
             - tactic:/opt/tactic
             - ./tactic/standalone_linux-conf.xml:/opt/tactic/tactic_data/config/tactic-conf.xml
-            - ./tactic/install.py:/TACTIC/src/install/install.py:ro
+            - ./tactic/install.py:/tmp/TACTIC/src/install/install.py:ro
 
     db:
         image: postgres:11

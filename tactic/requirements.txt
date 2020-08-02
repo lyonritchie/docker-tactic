@@ -1,0 +1,11 @@
+psycopg2-binary
+pillow
+lxml
+pycryptodomex
+six
+pytz
+jaraco.functools
+requests
+supervisor
+pyodbc
+python-dateutil

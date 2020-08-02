@@ -38,7 +38,7 @@
 <!-- database -->
 <database>
     <vendor>PostgreSQL</vendor>
-    <server>localhost</server>
+    <server>db</server>
     <port>5432</port>
     <user>postgres</user>
     <password>none</password>
@@ -92,5 +92,3 @@
 
 
 </config>
-
-

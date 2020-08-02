@@ -909,6 +909,7 @@ if __name__ == '__main__':
 
     install = Install()
     install.execute(install_db=install_db,install_defaults=install_defaults,database_type=database_type, port_num=port_num )
+    # install.execute(install_defaults=install_defaults,database_type=database_type, port_num=port_num )
     
 
 
