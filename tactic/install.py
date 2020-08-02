@@ -17,6 +17,8 @@ import subprocess
 import re
 import os.path
 
+print("Environ stuff...")
+print("ROOT_PASSWORD=", os.environ['ROOT_PASSWORD'])
 
 class InstallException(Exception):
     pass

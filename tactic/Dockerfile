@@ -20,7 +20,7 @@ ENV LC_ALL=
 RUN echo 'export PS1="[\u@docker] \W # "' >> /root/.bash_profile
 
 # Install dependecies
-RUN yum -y update && yum install -y glibc-all-langpacks.x86_64 glibc-locale-source glibc-langpack-en wget
+RUN yum -y update && yum install -y glibc-all-langpacks.x86_64 glibc-locale-source glibc-langpack-en
 
 RUN yum -y --enablerepo=extras install epel-release
 
@@ -28,9 +28,9 @@ RUN localedef -f UTF-8 -i en_US en_US.UTF-8
 
 # RUN localectl set-locale LANG=en_US.UTF-8
 
-RUN yum -y install wget yum-utils gcc openssl-devel bzip2-devel libffi-devel
+RUN yum -y install wget yum-utils gcc openssl-devel bzip2-devel libffi-devel make
 
-# install Python 3.7+
+# install Python 3.7+ from https://www.workaround.cz/howto-compile-install-latest-python-37-38-39-centos-7-8/
 RUN wget https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz
 RUN tar xzf Python-3.7.7.tgz && cd Python-3.7.7 && \
     ./configure \
@@ -76,7 +76,7 @@ RUN curl -L -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-st
 RUN /usr/bin/ssh-keygen -A
 
 # set root passord at image launch with -e ROOT_PASSWORD=my_secure_password
-ADD bootstrap.sh /usr/local/bin/bootstrap.sh
+# ADD bootstrap.sh /usr/local/bin/bootstrap.sh
 
 # Clean up
 # RUN dnf clean all
@@ -111,10 +111,27 @@ RUN git clone -b 4.7-updates --depth 1 https://github.com/Southpaw-TACTIC/TACTIC
 
 # RUN rpm -Uhv "http://community.southpawtech.com/downloads/TACTIC%20-%20RPM/TACTIC-4.7.0.b02-0.x86_64.rpm"
 
-
-
 # CMD ["python3", "/opt/tactic/tactic/src/pyasm/search/upgrade/postgresql/bootstrap_load.py"]
     # rm -rf TACTIC
+
+### INSTALL STEPS
+# 1. Check for db
+# 2. TEMP directories & chown to apache user:
+# os.system('chown -R %s \"%s\"'\
+#     %(self.tactic_apache_user, self.tmp_dir))
+
+# os.system('chown -R %s \"%s\"'\
+#     %(self.tactic_apache_user, self.tactic_site_dir))
+
+# os.system('chown -R %s \"%s\"'\
+#     %(self.tactic_apache_user, self.tactic_data_dir))
+
+# os.system('chown -R %s \"%s/assets\"'\
+#     %(self.tactic_apache_user, self.tactic_base_dir))
+
+# os.system('chown -R %s \"%s\"'\
+#     %(self.tactic_apache_user, self.tactic_src_dir))
+
 
 ENTRYPOINT ["python3", "/opt/tactic/tactic/src/bin/startup_dev.py"]
 

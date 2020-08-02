@@ -6,7 +6,7 @@ services:
     #     command : []
     tactic:
         build: "./tactic"
-        image: garyritchie/docker-tactic-compose:4.8
+        image: garyritchie/docker-tactic-compose:4.7-updates
         depends_on:
             - db
             - httpd
