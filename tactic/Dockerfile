@@ -33,8 +33,9 @@ WORKDIR /TACTIC/src/install
 
 RUN python install.py -d -i False
 
-RUN chown tactic:tactic -R /opt/tactic
-RUN chmod 755 -R /opt/tactic
+RUN mkdir -p /opt/tactic_temp
+RUN chown tactic:tactic -R /opt/tactic*
+RUN chmod 755 -R /opt/tactic*
 
 WORKDIR /opt/tactic/tactic
 
