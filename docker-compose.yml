@@ -19,7 +19,7 @@ services:
         volumes:
             - tactic:/opt/tactic
             # - ./tactic/tactic_linux-conf.xml:/opt/tactic/tactic_data/config/tactic-conf.xml
-            - ./tactic/tactic_linux-conf.xml:/opt/tactic_data/config/tactic-conf.xml:ro
+            - ./tactic/tactic_linux-conf.xml:/opt/tactic/tactic_data/config/tactic-conf.xml:ro
 
     db:
         image: postgres:11
