@@ -13,17 +13,13 @@ services:
         user: tactic
         environment:
             ROOT_PASSWORD: mysecretpassword
-            TACTIC_INSTALL_DIR: '/opt/tactic'
-            TACTIC_SITE_DIR: ''
-            TACTIC_DATA_DIR: '/opt/tactic_data'
-            TACTIC_DB: 'db'
+            TACTIC_DBHOST: 'db'
         ports:
             - "8070:80"
         volumes:
             - tactic:/opt/tactic
             # - ./tactic/tactic_linux-conf.xml:/opt/tactic/tactic_data/config/tactic-conf.xml
             - ./tactic/tactic_linux-conf.xml:/opt/tactic_data/config/tactic-conf.xml:ro
-            # - ./tactic/install.py:/TACTIC/src/install/install.py:ro
 
     db:
         image: postgres:11

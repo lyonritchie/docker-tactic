@@ -33,12 +33,13 @@ WORKDIR /TACTIC/src/install
 
 RUN python install.py -d -i False
 
-# RUN mkdir -p /opt/tactic
+RUN chown tactic:tactic -R /opt/tactic
+RUN chmod 755 -R /opt/tactic
 
 WORKDIR /opt/tactic/tactic
 
 # This helps get past: ModuleNotFoundError: No module named 'pyasm'
-ENV PYTHONPATH="$PYTHONPATH:/opt/tactic/tactic/src"
+ENV PYTHONPATH="/opt/tactic/tactic/src"
 
 USER tactic
 ENTRYPOINT ["python", "src/bin/startup_dev.py"]
