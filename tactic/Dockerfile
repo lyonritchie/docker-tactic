@@ -5,7 +5,8 @@ RUN apt update && apt install -y \
     apt-utils \
     unixodbc-dev \
     locales \
-    locales-all
+    locales-all \
+    postgresql
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
