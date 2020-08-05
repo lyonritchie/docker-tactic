@@ -1,0 +1,3 @@
+[submodule "tactic_src"]
+	path = tactic/src
+	url = git@github.com:lyonritchie/TACTIC.git

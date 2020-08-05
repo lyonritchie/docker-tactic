@@ -33,8 +33,6 @@ class Install:
         db = DbContainer.get("sthpw")
         db.do_update(sql)
 
-    
-
     def check_db_program(self):
         try:
             print()
@@ -47,7 +45,7 @@ class Install:
             print('(if this is not the database type desired,')
             print('hit Ctrl+C to cancel and see the types available with \'python install.py -h\' )')
             if self.database_type == 'PostgresSQL':
-                program = subprocess.Popen(['psql', '-U',  'postgres', '-p', self.port_num, '-c', "\q"], shell=True, stdout = subprocess.PIPE , stderr = subprocess.PIPE, stdin=sys.stdin)
+                program = subprocess.Popen(['psql', '-h', 'db', '-U',  'postgres', '-p', self.port_num, '-c', "\q"], shell=True, stdout = subprocess.PIPE , stderr = subprocess.PIPE, stdin=sys.stdin)
             elif self.database_type == 'SQLServer':
                 program = subprocess.Popen(['sqlcmd', '-U',  'tactic', '-P', 'south123paw', '-Q', "quit"], shell=True, stdout = subprocess.PIPE , stderr = subprocess.PIPE, stdin=sys.stdin)
                         
@@ -105,12 +103,14 @@ class Install:
                     print("Exiting...")
                     sys.exit(0)
             else:
-                args = ['psql','-U', 'postgres',  '-p', self.port_num, '-c', "\c %s;\q"%project_code]
+                print("args 1")
+                args = ['psql', '-h', 'db', '-U', 'postgres', '-p', self.port_num, '-c', "\c %s;\q"%project_code]
 
         else:
             #args = 'psql -U postgres -p %s -c  "\c %s;\q"'%(self.port_num, project_code)
+            print("args 2")
             cmd = '"\c %s;\q"' % project_code
-            args = ['psql', '-U', 'postgres','-p', self.port_num, '-c', cmd]
+            args = ['psql', '-h', 'db', '-U', 'postgres','-p', self.port_num, '-c', cmd]
         program = subprocess.Popen(args, shell=True, \
             stdout = subprocess.PIPE , stderr = subprocess.PIPE, stdin=sys.stdin)
         lines = program.stdout.readlines()
@@ -122,7 +122,7 @@ class Install:
             answer = input("(n) -> ")
             if answer in ['y','Y']:
                 # can't read from config file at this point, just make these default assumptions
-                db_host = 'localhost'
+                db_host = 'db'
                 db_user = 'postgres'
                 backup_name = 'sthpw_backup.sql'
                 current_dir = self.get_current_dir()
@@ -263,7 +263,7 @@ class Install:
             print()
             sys.exit(2)
 
-        self.update_tactic_configs()
+        # self.update_tactic_configs()
 
         # check modules
         try:

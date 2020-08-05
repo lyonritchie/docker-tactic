@@ -16,8 +16,7 @@
 <!-- directory pointing to the temp and log files of Tactic -->
 <install>
     <hostname>localhost</hostname>
-    <!-- <install_dir>/opt/tactic</install_dir> -->
-    <tmp_dir>/opt/tactic_temp</tmp_dir>
+    <tmp_dir>/opt/tactic/tactic_temp</tmp_dir>
     <log_type>file</log_type>
 </install>
 

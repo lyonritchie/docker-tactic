@@ -22,10 +22,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN useradd -r -d /opt/tactic tactic
 # ENV TACTIC_INSTALL_DIR=/opt/tactic
 
-RUN git clone -b 4.8 --depth 1 https://github.com/Southpaw-TACTIC/TACTIC.git
+# RUN git clone -b 4.8 --depth 1 https://github.com/Southpaw-TACTIC/TACTIC.git
 
-COPY tactic_linux-conf.xml /opt/tactic/tactic_data/config/tactic-conf.xml
-# Temporary fix for /opt/tactic install path
+COPY src /TACTIC
+
+# COPY tactic_linux-conf.xml /opt/tactic/tactic_data/config/tactic-conf.xml
+# Temporary fix for configs (disabling)
 # COPY install.py /TACTIC/src/install/install.py
 
 RUN mkdir -p /opt/tactic/assets
