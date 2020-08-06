@@ -30,6 +30,10 @@ Run the container with:
 
 ---
 
+NOTE: Prior to running the install.py script, edit `tactic/src/install/template/config/tactic_linux-conf.xml` so it reflects the database container name. This should be part of the Dockerfile build or volume-mounted into the container.
+
+---
+
 Init step:
 
 ```bash

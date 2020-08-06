@@ -1,0 +1,127 @@
+gary@Oxia:/mnt/r/CLIENT/LRL/INFRASTRUCTURE/docker-tactic$ docker-compose run -u root --entrypoint bash tactic
+Starting docker-tactic_httpd_1 ... done
+Starting docker-tactic_db_1    ... done
+root@9a2f8d16e427:/opt/tactic/tactic_src_4.8.0.b04# cd /TACTIC/src/install/
+root@9a2f8d16e427:/TACTIC/src/install# python install.py
+
+
+********************
+Tactic Installation
+********************
+
+
+Verifying the database is installed. The default is no password if you have followed the instructions to not require a password. If you see it asking for 'Password for user postgres', you should close this window and make the database not require a password first (refer to our install documentation) and resume the installation.
+
+
+Database type is:  PostgresSQL
+(if this is not the database type desired,
+hit Ctrl+C to cancel and see the types available with 'python install.py -h' )
+
+Please enter the base path of the Tactic installation:
+
+(/opt/tactic) ->
+
+
+Please enter the user Apache Web Server is run under:
+
+(www-data) ->
+
+
+Custom install directory [/opt/tactic/tactic_src_4.8.0.b04] already exists. It will be removed and copied over. Continue? (y/n) -> y
+
+Copying files to the install directory... It may take several minutes.
+
+Creating a symlink at [/opt/tactic/tactic]...
+
+Verifying Python modules are properly installed...
+
+Creating TACTIC temp directories:  /opt/tactic/tactic_temp
+Changing directory ownership of temp and data directories
+Creating database 'sthpw' ...
+
+Error:  FATAL:  database "sthpw" does not exist
+
+Error:  FATAL:  database "sthpw" does not exist
+
+create:  createdb -h db -U postgres -p 5432 -E UNICODE "sthpw"
+Importing sql to database [sthpw]...
+   using path [/opt/tactic/tactic/src/pyasm/search/upgrade/postgresql/bootstrap_schema.sql]
+Importing sql to database [sthpw]...
+   using path [/opt/tactic/tactic/src/pyasm/search/upgrade/postgresql/config_schema.sql]
+Importing sql to database [sthpw]...
+   using path [/opt/tactic/tactic/src/pyasm/search/upgrade/postgresql/sthpw_schema.sql]
+Upgrading the database schema in quiet mode...
+
+
+
+IMPORTANT NOTICE:
+
+
+        You are upgrading from an earlier version to 4.0.  TACTIC version 4.0 has made some important changes, particularly in the way that some tables are related to each other.  Previously, TACTIC would relate such items as snapshots, tasks and notes by the column "search_id".  In 4.0, this has been changed to "search_code".  The "search_id" will still exists, but wil not be used to relate tables.
+
+        In order to upgrade, TACTIC needs to fill in the "search_code" column of various tables.  This is a heavy process if you have a lot of data.  It is a non-destructive script and will only add data.  It will not change any current existing data.  You may wish to run this separately if you have large projects with lots of data.
+
+        You can run this script now or you can run it manually by:
+
+        python <TACTIC_INSTALL_DIR>/src/bin/fixes/fix_search_code.py
+
+
+Run now? (y/n):y
+Running ...
+
+
+cmd:  /usr/local/bin/python "/opt/tactic/tactic/src/bin/fixes/fix_search_code.py"
+
+
+
+
+Please refer to the file [/opt/tactic/tactic_temp/upgrade/sthpw/upgrade_output.txt] for any upgrade messages.
+
+
+Default project template files have been updated.
+
+
+*** Installation of TACTIC completed at [/opt/tactic] ***
+
+
+Next, please install the Apache Web Server and then copy the Apache config extension [/opt/tactic/tactic_data/config/tactic.conf] to the Apache web server config area. e.g. /etc/httpd/conf.d/
+
+Depending on the OS, you may need to add the following line to the main config file [httpd.conf] shipped with Apache as well:
+
+Include conf.d/*.conf
+
+root@9a2f8d16e427:/TACTIC/src/install#
+
+---
+
+root@9a2f8d16e427:/opt/tactic/tactic/src/bin# chown tactic:tactic -R /opt/tactic*
+root@9a2f8d16e427:/opt/tactic/tactic/src/bin# ls -lah /opt/tactic
+total 32K
+drwxr-xr-x 7 tactic tactic 4.0K Aug  5 23:12 .
+drwxr-xr-x 1 root   root   4.0K Aug  5 23:11 ..
+drwxr-xr-x 2 tactic tactic 4.0K Aug  5 21:42 assets
+drwxr-xr-x 2 tactic tactic 4.0K Aug  5 21:42 projects
+lrwxrwxrwx 1 tactic tactic   32 Aug  5 23:12 tactic -> /opt/tactic/tactic_src_4.8.0.b04
+drwxr-xr-x 5 tactic tactic 4.0K Aug  5 21:46 tactic_data
+drwxr-xr-x 6 tactic tactic 4.0K Aug  5 23:10 tactic_src_4.8.0.b04
+drwxr-xr-x 3 tactic tactic 4.0K Aug  5 23:13 tactic_temp
+root@9a2f8d16e427:/opt/tactic/tactic/src/bin# su tactic
+$ pwd
+/opt/tactic/tactic/src/bin
+$ python startup_dev.py
+
+tactic@399433ac7df8:~/tactic/src/bin$ python startup_dev.py
+
+
+Data Directory [/opt/tactic/tactic_data]
+Asset Directory [/opt/tactic/assets]
+Temp Directory [/opt/tactic/tactic_temp]
+Config path [/opt/tactic/tactic_data/config/tactic-conf.xml]
+Registering project ... admin
+Registering project ... default
+Initializing Workflow Engine
+Starting Scheduler ....
+
+Starting TACTIC v4.8.0.b04 ...
+
+tactic@399433ac7df8:~/tactic/src/bin$
