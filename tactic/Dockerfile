@@ -22,7 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN useradd -r -d /opt/tactic tactic
 # ENV TACTIC_INSTALL_DIR=/opt/tactic
 
-RUN git clone -b 4.8 --depth 1 https://github.com/Southpaw-TACTIC/TACTIC.git
+# RUN git clone -b 4.8 --depth 1 https://github.com/Southpaw-TACTIC/TACTIC.git
+RUN git clone -b 4.8 --depth 1 https://github.com/remkonoteboom/TACTIC-DEV.git /TACTIC
 # COPY src /TACTIC
 
 # Specify DB name, then build...
